@@ -1,7 +1,8 @@
 ; Title: 7-Segment Counter
 ; Author: Hamza Alshamasneh
 ; Versions:
-; V1.0: 3/20/2026 - Initial Versions
+; V1: 3/20/2026 - Initial Versions
+; V2: 3/24/2026 - extended delay time (~0.6s) for slower counting
 ;-----------------------------------------------------------
 ; Device: PIC18F47K42
 ; Compiler: MPLAB X IDE - pic-as Assembler
@@ -208,6 +209,8 @@ ResetCount:
 ;COUNT_INC: Increments count
 COUNT_INC:
         CALL    DelayLoops
+	CALL    DelayLoops	; call delay 3 time to get 0.57s delay
+	CALL    DelayLoops
         INCF    COUNT,1,0        ; increment
 
         MOVF    COUNT,0,0        ; check if overflow
@@ -222,6 +225,8 @@ COUNT_INC:
 ;COUNT_DEC: Decrements count
 COUNT_DEC:
         CALL    DelayLoops
+	CALL    DelayLoops	; call delay 3 time to get 0.57s delay
+	CALL    DelayLoops
 
         MOVF    COUNT,0,0        ; check if 0
         XORLW   0x00
@@ -261,7 +266,7 @@ ShowCount:
         RETURN
 
 ;===========================================================================
-;DelayLoops: Create visible delay
+;DelayLoops: Create visible delay of 0.19s
 DelayLoops:
         MOVLW   0xFF             ; outer delay start
         MOVWF   OutDelay,0
